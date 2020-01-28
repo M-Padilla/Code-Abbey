@@ -1,0 +1,53 @@
+#http://www.codeabbey.com/index/task_view/funny-words-generator
+#Submission by MPadilla - 20/Dic/2017
+
+def lconggen(valor): #Ejecuta la fórmula del Generador Linear Congruencial hasta calcular el N-ésimo miembro de la secuencia
+	numgenerados=[]
+	for _ in range(Numeros):
+		valor=(A*valor+C)%M
+		numgenerados.append(valor)
+	return(numgenerados)
+
+def nmodconv(valor,posicion): #Ejecu
+	if posicion%2!=0:
+		valor=valor%19
+		isVocal=False
+	else:
+		valor=valor%5
+		isVocal=True
+	def letraconv(valor,isVocal):
+		if isVocal==True:
+			letra=clavevocal[valor]
+		else:
+			letra=claveconso[valor]
+		return(letra)
+	letra=letraconv(valor,isVocal)
+	return letra
+
+
+entr = [list(int(x) for x in input().split())for i in range(2)] #Lee las entradas
+
+
+#El siguiente bloque crea un diccionario en Python: Las llaves son los numeros que se le asignan a cada letra, según sea vocal o consonante.
+vocal = list("aeiou")
+conso = list("bcdfghjklmnprstvwxz")
+clavevocal=dict(zip(list(range(0,5)),vocal))
+claveconso=dict(zip(list(range(0,19)),conso))
+
+#Almacena los parámetros para las diferentes funciones y el generador de números aleatorios.
+Words,Xo,Numeros= entr[0][0],entr[0][1],sum(entr[1]) 
+A,C,M = 445,700001,2097152
+
+numaleat=lconggen(Xo)#Genera los numeros aleatorios y los almacena en un vector
+sol,i=[],0
+
+for _ in range(Words):
+	sol.append(numaleat[i:i+entr[1][_]])#Agrupa los numeros aleatorios segun el largo de la palabra a descifrar
+	i+=entr[1][_]
+
+for _ in range(Words):
+	for pos in range(len(sol[_])):
+		sol[_][pos]=nmodconv(sol[_][pos],pos+1)#Convierte los número aleatorios a las claves numéricas mediante la función nmodconv, que utiliza el módulo del número combinada con su posición en la palabra. Esta a su vez invoca a la función letraconv, la cual usa el diccionario creado para descifrar la letra correspondiente al número resultante
+	sol[_]=''.join(sol[_]) #Forma un vector con las palabras descifradas
+	
+print("Funny words generated:"," ".join(sol))

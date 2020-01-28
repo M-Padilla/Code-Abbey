@@ -1,0 +1,19 @@
+#Problem #69 - Fibonacci Divisibility http://www.codeabbey.com/index/task_view/fibonacci-divisibility
+#Submission by MPadilla - 21/Ene/2018
+
+input() # read the first line, We don't need this.
+entr=[int(x) for x in input().split()] #Crea el vector de los divisores
+posentr=[x for x in range(len(entr))] #Guarda las posiciones originales de los divisores en el vector entr
+posdiv=[0]*len(entr) #Crea un vector con la posición de los numeros de Fibonacci que son divididos exactamente por los números de entr
+Fc,Fp,pos=2,1,3 #Parámetros de inicio para generar números de Fibonacci. Término actual= Fc, Término anterior Fp, Posición del término actual= pos. Se inicia con el número 2, el cual es el 3er término de la serie de Fibonacci 
+
+while posentr:
+	for number in posentr:
+		test=Fc%entr[number] #Prueba la divisibilidad exacta del término actual respecto al divisor
+		if test == 0: #Si divide exactamente entonces:
+			posdiv[entr.index(entr[number])]=pos #Busca la posición del término actual se asigna al posición que corresponde a su divisor en el listado de posiciones, para no desorganizar la lista.
+			posentr.remove(number) #Como ya se sabe el divisor del término actual, se puede saltar la posición del divisor de futuras consideraciones. Esto repercute en el while in en el for de las líneas 10-11, puesto que ellos al no encontrar la posición borrada del divisor que se encontró entonces saltan al sigte divisor, permitiendo ahorrar tiempo de procesamiento (cada vez quedan menos) sin desorganizar las posiciones originales que corresponden a cada divisor restante en el vector entr
+	Fc,Fp=Fc+Fp,Fc #Actualiza los parámetros para generar el sigte número de Fibonacci
+	pos+=1 #Actualiza la posición del sigte número de Fibonacci
+
+print("Las posiciones de los números que dividen exactamente a los divisores son: "+" ".join(str(x) for x in posdiv))p

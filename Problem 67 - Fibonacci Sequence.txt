@@ -1,0 +1,22 @@
+#Problem #67 - Fibonacci Sequence http://www.codeabbey.com/index/task_view/fibonacci-sequence
+#Submission by MPadilla - 19/Dic/2017
+
+from math import log
+
+print('Insert the text:')#Recibe entrada del usuario
+N=int(input())
+userinput=[]
+for i in range(N):
+	userinput.append(int(input()))
+
+#Usando el siguiente truco matemático se calculará las posicones de los números de la secuencia:
+#Fibonacci number is described as, Fn = 1 / sqrt(5) (pow(a,n) – pow(b,n)) where a = 1 / 2 ( 1 + sqrt(5) ) and b = 1 / 2 ( 1 – sqrt(5) ).
+#On neglecting pow(b, n) which is very small for large value of n, we get n = round { 2.078087 * log(Fn) + 1.672276 } where round means round to nearest integer.
+
+for number in range(N):
+	try:
+		userinput[number] = round(2.078087 * log(userinput[number]) + 1.672276) #Log sin un segundo argumento es automáticamente un logaritmo natural
+	except ValueError: #Esto cubre el error al usar log(0), el cual no esta definido, pero que se considera como el 0-ésimo valor de la secuencia.
+		userinput[number]=0
+		
+print("The requested Fibonacci numbers' positions are: " + " ".join(str(x) for x in userinput))

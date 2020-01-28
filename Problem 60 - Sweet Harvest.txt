@@ -1,0 +1,24 @@
+#Problem #60 - Sweet Harvest http://www.codeabbey.com/index/task_view/sweet-harvest
+#Submission by MPadilla - 09/Abr/2017
+
+entr = [[int(x) for x in input().split()]for i in range(int(input()))]
+
+for i in range(len(entr)):
+	prev_jump=[[entr[i][0],0]] #Cantidad,piedra
+	next_jump,sweet_gather=[],[]
+
+	while len(prev_jump)!=0:
+		for piedra in prev_jump:
+			for step in range(2,4):
+				try:
+					next_jump.append([piedra[0]+entr[i][piedra[1]+step],piedra[1]+step])
+				except IndexError:
+					if step==2:
+						sweet_gather.append(piedra[0])
+					else:
+						pass
+		prev_jump=next_jump
+		next_jump=[]
+	entr[i]=max(sweet_gather)
+	
+print("Maximum ammounts of sweets gathered across cases are: " + " ".join(str(x) for x in entr))

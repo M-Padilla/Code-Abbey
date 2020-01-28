@@ -1,0 +1,30 @@
+# Problem #62 - Prime Ranges http://www.codeabbey.com/index/task_view/prime-ranges
+# Submission by MPadilla - 14/Apr/2017
+
+maxnumber= 3000000  #El ejercicio establece que este será el máximo de los números solicitados en los casos
+criba=[]
+
+#Implementanción de la criba de Erastótenes para la generación de números primos hasta un n determinado, que en este caso es maxnumber. https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes#Pseudocode
+criba+=(maxnumber-1)*[True]
+root=int(maxnumber**0.5)
+for i in range(root-1):
+	if criba[i]==True:
+		j,a=[0]*2
+		while a<maxnumber:
+			a=(((i+2)**2)+j*(i+2))-2
+			try:
+				criba[a]=False
+			except IndexError:
+				break
+			j+=1
+
+#Crea un vector con las posiciones de todos los números primos ya cribados. La parte de i+2 convierte esas posiciones en los números en sí. Por ejemplo, la posición 0 sería el número 2, que es el primer primo. 
+indices = [i+2 for i, x in enumerate(criba) if x == True]
+
+entr = [[int(x) for x in input().split()]for i in range(int(input()))]
+
+for i in range(len(entr)):
+  a=indices.index(entr[i][1])-indices.index(entr[i][0])+1 #Encuentra los indices de ambos numeros, se restan entre si para hallar cuantos hay entre ellos y se le suma uno porque la cuenta debe incluir a los limites del intervalo [a,b]
+  entr[i]=a
+
+print("The primes between the ranges of each case are: " + " ".join(str(x) for x in entr))

@@ -1,0 +1,13 @@
+#Problem #68 - Bicycle Race http://www.codeabbey.com/index/task_view/bicycle-race
+#Submission by MPadilla - 19/Dic/2017
+
+entr = [list(int(x) for x in input().split())for i in range(int(input()))]
+meet=[]
+
+for i in range(len(entr)):
+	S,A,B=entr[i][0],entr[i][1],entr[i][2] #Asigna para las variables para cada tripleta. S es distancia, A velocidad del ciclista 1, B velocidad del ciclista 2.
+	t=S/(A+B) #Ecuación matemática despejada para obtener el tiempo en que ambos ciclistas se encuentran. Dado que vienen en sentidos opuestos esto sería cuando A*t = S-B*t
+	Xm=A*t #Para hallar la distancia recorrida por el ciclista 1, sabiendo que se encontrará con el otro ciclista en el tiempo t
+	meet.append(Xm)
+
+print("The travelled distances are: " + " ".join(str(x) for x in meet))

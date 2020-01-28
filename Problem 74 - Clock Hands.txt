@@ -1,0 +1,36 @@
+# Problem #74 - Clock Hands http://www.codeabbey.com/index/task_view/clock-hands
+# Submission by MPadilla - 23/Dic/2017
+
+import math
+
+def angles(hh,mm):
+	#Angulo de horas
+	anghh=hh*(360/12)
+	anghh+=mm*(30/60) #Aqui tiene en cuenta además el movimiento de la aguja de la hora según pasan los minutos.
+	anghh=(anghh/180)*math.pi
+	#Angulo de minutos:
+	angmm=mm*(360/60)
+	angmm=(angmm/180)*math.pi
+	return(anghh,angmm)
+	
+def polar2cart(anghh,angmm):
+	#Aplica relaciones trigonométricas sabiendo el ángulo de cada aguja y su longitud
+	xh,yh=longh*math.sin(anghh),longh*math.cos(anghh)
+	xm,ym=longm*math.sin(angmm),longm*math.cos(angmm)
+	return(xh,yh,xm,ym)
+
+
+
+
+input()
+entr=input().split()
+longh,longm=6,9 #Longitud de las agujas de la hora y los minutos, respectivamente
+coords=[] #Vector de las coordenadas cartesianas finales
+
+for _ in entr:
+	time=_.split(":") #Separa las horas de los minutos.
+	time=angles(int(time[0]),int(time[1])) #Usa función angles para obtener los ángulos de cada aguja
+	time=polar2cart(time[0],time[1]) #Usa función radial2cartesian para convertir de coordenads polares a cartesianas
+	coords.append(list(str(round(x+10,8)) for x in time)) #Toma las distancias que polar2cart obtiene, las redondea a la exactitud deseada, las vuelve cadenas y las agrega al vector de las coordenadas cartesians finales
+
+print(" ".join(sum(coords, [])))

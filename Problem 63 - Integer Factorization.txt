@@ -1,0 +1,49 @@
+#Problem #63 - Integer Factorization http://www.codeabbey.com/index/task_view/integer-factorization
+#Submission by MPadilla - 09/Abr/2017
+import math
+
+N=int(input())
+entr=[int(x) for i in range(N) for x in input().split(" ")]
+
+#Para optimizar el tiempo de corrida, solo se hallaran los primos hasta un número P tal que P*P=maxnumber, mejor dicho, hasta la raíz cuadrada del número más grande de los introducidos por el usuario.
+
+maxnumber=math.floor(max(entr)**0.5)
+criba=[]
+primes=[]
+
+#Implementanción de la criba de Erastótenes para la generación de números primos hasta un n determinado, que en este caso es maxnumber. https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes#Pseudocode
+
+criba+=(maxnumber-1)*[True]
+for i in range(maxnumber-1):
+	if criba[i]==True:
+		j,a=[0]*2
+		while a<maxnumber:
+			a=(((i+2)**2)+j*(i+2))-2
+			try:
+				criba[a]=False
+			except IndexError:
+				break
+			j+=1
+			
+#Crea un vector con las posiciones de todos los números primos ya cribados.
+indices = [i for i, x in enumerate(criba) if x == True]
+#Llena el vector primos con los números, ajustando el desfase de posiciones acumulado en varios vectores
+for i in range(len(indices)):
+	primes.append(indices[i]+2)
+
+answer=[]
+
+#Lo siguiente básicamente consiste en ir dividiendo cada número del usuario por los primos. Se empieza desde el 2 y si el primo no divide exactamente al numero (o sea number%primo!=0) se procede a intentar dividiendo con el siguiente primo.
+for i in entr:
+	number=i
+	factors=[]
+	posdiv=0
+	while number!=1:#Si el primo sí lo divide, es un factor, por lo que se agrega a la lista de factores. El número objetivo es divido por el primo, y se reinicia el proceso para hallar los factores restantes (por ejemplo 16/2=8, entonces 8/2=4, 4/2=2 ...) hasta que el número objetivo se haya reducido a 1, siendo no posible dividirlo más y señalando que se encontraron todos los factoriales
+		if number%primes[posdiv]==0:
+			factors.append(str(primes[posdiv]))
+			number/=primes[posdiv]
+		else:
+			posdiv+=1
+	answer.append("*".join(factors))#Formateo de la cadena de caracteres para unirlos con el signo de multiplicación
+
+print("The requested numbers' prime factors are: " + " ".join(str(x) for x in answer))

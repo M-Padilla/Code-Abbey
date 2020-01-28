@@ -1,0 +1,24 @@
+# Problem #54 - Pythagorean Triples http://www.codeabbey.com/index/task_view/pythagorean-triples
+# Submission by MPadilla - 30/Jun/2016
+
+print('Paste the problem input:\n') #El primer número es la cantidad de tripletas pitagóricas, y el resto son las sumas s quedeben cumplir los elementos de la tripleta, de tal manera que a+b+c=s
+N=int(input()[0])
+userinput=[]
+for i in range(N):
+	userinput.append(int(input()))
+
+pyt_triples=[]#Crear vector para almacenar c^2
+
+for i in range(0,len(userinput)): #Para cada suma s haga:
+	for a in range(2,userinput[i]): #Comience a probar secuencialmente números enteros para a, desde a=2:
+		if (userinput[i]**2-2*userinput[i]*a)%(2*userinput[i]-2*a)==0: #Se tienen dos ecuaciones: a+b+c=s [1]. a^2+b^2=c^2 [2]
+		#Depejando c, daría c=n-a-b y reemplazando en [2], despejando b y simplificando, se encuentra la expresión de la línea siguiente.
+		#La expresion del condicional if de arriba, sirve para generar valores de a que sean enteros únicamente, no aceptando decimales o fracciones.
+			b=int((userinput[i]**2-2*userinput[i]*a)/(2*userinput[i]-2*a))
+			csquared=(int(userinput[i]-a-b))**2
+			break
+	pyt_triples.append(csquared)
+
+print("Pythagorean triples are: "+" ".join(str(x) for x in pyt_triples))
+
+#Una explicación de la matemática involucrada se encuentra en: https://algoexplode.wordpress.com/2013/07/24/special-pythagorean-triplet-project-euler-problem-9/

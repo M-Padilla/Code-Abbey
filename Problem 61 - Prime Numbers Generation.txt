@@ -1,0 +1,31 @@
+# Problem #61 - Prime Numbers Generation http://www.codeabbey.com/index/task_view/prime-numbers-generation
+# Submission by MPadilla - 04/Jul/2016
+
+maxnumber= 2750159  #Dado que el ejercicio establece que se solicitarán hasta los primeros 200000 números primos, el generador en https://primes.utm.edu/nthprime/index.php dice que el 200000 ésimo número primo es el valor que se asigna a maxnumber, y por lo tanto no habrá nada por encima de él
+criba=[]
+
+#Implementanción de la criba de Erastótenes para la generación de números primos hasta un n determinado, que en este caso es maxnumber. https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes#Pseudocode
+criba+=(maxnumber-1)*[True]
+root=int(maxnumber**0.5)
+for i in range(root-1):
+	if criba[i]==True:
+		j,a=[0]*2
+		while a<maxnumber:
+			a=(((i+2)**2)+j*(i+2))-2
+			try:
+				criba[a]=False
+			except IndexError:
+				break
+			j+=1
+
+#Crea un vector con las posiciones de todos los números primos ya cribados.
+indices = [i for i, x in enumerate(criba) if x == True]
+
+#Recibe la lista de primos solicitados del usuario.
+N=int(input())
+entr=[int(x) for x in input().split(" ")]
+primes=[]
+
+#Llena el vector primos con los números, ajustando el desfase de posiciones acumulado en varios vectores
+for i in range(len(entr)):
+	primes.append(indices[entr[i]-1]+2)

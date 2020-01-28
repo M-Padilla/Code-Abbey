@@ -1,0 +1,13 @@
+# Problem #57 - Smoothing the Weather http://www.codeabbey.com/index/task_view/smoothing-the-weather
+# Submission by MPadilla - 04/Jul/2016
+
+entr=[float(x) for x in input().split()]#Me salto la lectura del primer número que señala la cantidad de temperaturas, pues lo considero innecesario.
+smoothed=[entr[0]]#Comienza el vector de las temperaturas suavizadas poniendo la primera temperatura, la cual no cambia
+
+for i in range(1,len(entr)-1):#Desde el elemento 1 hasta el penúltimo, haga:
+	smoothed.append(sum(entr[i-1:i+2])/3)#Agrega al vector de temperaturas suavizadas una temperatura promediada entre ella, su sucesor y antecesor
+	#El slice no incluye el elemento i+2, por lo que en realidad se suma hasta i-1.
+	
+smoothed.append(entr[-1])#Termina el vector de las temperaturas suavizadas poniendo la última temperatura, la cual no cambia
+
+print("Smoothed weather series is: " + " ".join(str(x) for x in smoothed))

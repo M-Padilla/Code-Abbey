@@ -1,0 +1,11 @@
+# Problem #55 - Matching Words http://www.codeabbey.com/index/task_view/matching-words
+# Submission by MPadilla - 30/Jun/2016
+
+entr=[str(x) for x in input().split()]#Recibe la lista de palabras separadas por espacio
+del entr[-1]#borra la palabra end al final de la frase. Podria omitirse de ser necesario, ya que end sólo aparecerá una vez.
+unique=sorted(list(set(entr)))#Crea una lista de palabras, sin que tengan repeticiones, y los ordena alfabéticamente
+val=[]
+for x in range(len(unique)):#Para cada palabra en unique, cuenta cuantas repeticiones hay en la entrada de datos original y si está repetida, agrégala al vector val de palabras que hacen sentido.
+	if entr.count(unique[x])>1:
+		val.append(unique[x])
+print("Matching words sorted lexicographically are: "+ " ".join(x for x in val))
